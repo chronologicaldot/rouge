@@ -15,7 +15,7 @@ module Rouge
 
       def self.keywords
         @keywords ||= Set.new %w(
-          fn if elif else loop stop skip true false
+          fn if elif else loop stop skip this super true false
         )
       end
 
