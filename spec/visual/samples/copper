@@ -1,0 +1,19 @@
+# Copper example file #
+
+some_var = [ param, member ] {
+	called = copy_of( param )
+	ptr ~ member
+	ret( called: )
+}
+
+for_each( list(1, 2, 3) [item] {
+	i = int(0)
+	loop {
+		if ( equal(i: 100) ) { stop }
+		elif ( equal(i: 50) ) { skip }
+		else {
+			print( compound( this.member: item: ) )
+		}
+	}
+	ret(true)
+})

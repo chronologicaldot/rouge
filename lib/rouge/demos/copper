@@ -1,0 +1,18 @@
+foreach = [l cb] {
+	i = 0
+	loop {
+		if ( equal(i: length(l:)) ) { stop }
+		cb( item_at(l: i:) )
+	}
+}
+
+print_list_funcs = [l] {
+	if ( not(are_list(l:)) ) { ret: }
+	fc = 0
+	foreach( l [li fc~fc] {
+		if ( are_fn(li:) ) {
+			++(fc:)
+			print( "Found function #" fc: ".\n" )
+		}
+	}
+}
