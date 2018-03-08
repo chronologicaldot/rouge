@@ -15,13 +15,19 @@ module Rouge
 
       def self.keywords
         @keywords ||= Set.new %w(
-          fn if elif else loop stop skip this super true false
+          stop skip true false
+        )
+      end
+
+      def self.reserved
+        # I have no idea if "reserved" is allowed, but I'm naming it anyway
+        @reserved ||= Set.new %w(
+          fn if elif else loop this super
         )
       end
 
       def self.builtins
         @builtins ||= Set.new %w(
-          = ~ . :
           ret not all any nall none are_fn are_empty are_same
           member member_count is_member set_member member_list union
           type_of are_same_type are_bool are_list are_string are_number are_int are_dcml
@@ -31,10 +37,10 @@ module Rouge
         )
       end
 
-      identifier = %r([\w!$%*+,<=>?/.-]+)
-      keyword = %r([\w!\#$%*+,<=>?/.-]+)
+      identifier = %r([\w!$%*+<>?/-]+)
 
       def name_token(name)
+        return Keyword::Reserved if self.class.reserved.include?(name)
         return Keyword if self.class.keywords.include?(name)
         return Name::Builtin if self.class.builtins.include?(name)
         nil
@@ -51,8 +57,6 @@ module Rouge
         # rule /0x-?[0-9a-fA-F]+/, Num::Hex
 
         rule /"(\\.|[^"])*"/, Str
-        rule /'#{keyword}/, Str::Symbol
-        rule /::?#{keyword}/, Name::Constant
         rule /\\(.|[a-z]+)/i, Str::Char
 
         # operators

@@ -39,7 +39,7 @@ module Rouge
             Generic::Error, :fg => :alert, :bg => :stopsign
       style Keyword, :fg => :starting_line, :bold => true
       style Operator,
-            Punctuation, :fg => :backlit
+            Punctuation, :fg => :pond
       style Generic::Deleted, :fg => :roadkill
       style Generic::Inserted, :fg => :marsh
       style Generic::Emph, :italic => true
@@ -67,7 +67,7 @@ module Rouge
       style Literal::String::Escape,
             Literal::String::Char,
             Literal::String::Interpol, :fg => :toll, :bold => true
-      style Name::Builtin, :bold => true, :fg => :green_grass
+      style Name::Builtin, :bold => true, :fg => :grass_green
       style Name::Entity, :fg => :pavement, :bold => true
       style Text::Whitespace, :fg => :honking
       style Name::Function,
