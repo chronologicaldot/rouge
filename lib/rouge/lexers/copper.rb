@@ -37,6 +37,7 @@ module Rouge
         )
       end
 
+      # TODO: Should also allow numbers
       identifier = %r([\w!$%*+<>?/-]+)
 
       def name_token(name)
@@ -46,18 +47,31 @@ module Rouge
         nil
       end
 
+      state :comment do
+        rule /#/, Comment::Multiline, :pop!
+        rule /\\[nrt\#]+/ , Str::Escape
+        rule /./, Comment::Multiline
+      end
+
+      state :string do
+        rule /"/, Str, :pop!
+        rule /\\./ , Str::Escape
+        rule /./, Str
+      end
+
       state :root do
-        rule /#.*?#/m, Comment::Multiline
+        # rule /#?:\\(?:)#/m, Comment::Multiline
+        rule /#/, Comment::Multiline, :comment
 
         #rule /#.*?$#/, Comment::Single
         rule /\s+/m, Text::Whitespace
 
-        rule /-?\d+\.\d+/, Num::Float
-        rule /-?\d+/, Num::Integer
+        rule /\d+\.\d*/, Num::Float
+        rule /\d+/, Num::Integer
         # rule /0x-?[0-9a-fA-F]+/, Num::Hex
 
-        rule /"(\\.|[^"])*"/, Str
-        rule /\\(.|[a-z]+)/i, Str::Char
+        # rule /"(\\.|[^"])*"/m, Str
+        rule(/"/, Str, :string)
 
         # operators
         rule /~@|[=~.:]/, Operator
